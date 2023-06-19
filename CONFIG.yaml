@@ -1,0 +1,43 @@
+BASE_SITE_URL: "https://www.worldcubeassociation.org"
+RESULTS_ENDPOINT: "/export/results"
+DATA_DIR: 'data'
+EXTRACTED_DATA_DIR: 'extracted_data'
+USED_VERSION_FILE: 'used_version.json'
+NUMBER_OF_ROWS_FILE: 'last_number_of_rows.json'
+NATIONALITIES_FILE: 'nationalities.json'
+EXT_NAME: '.tsv'
+WCA_PREFIX: 'WCA_EXPORT_'
+DB_NAME: 'wca_db.db'
+CREATES_SQL_FILE: 'tables_CREATE.sql'
+LOGGER:
+  logging_format: '[%(asctime)s] - %(levelname)s - %(message)s'
+  logger_level: INFO
+NEEDED_TABLES: 
+    Competitions:
+     - id
+     - name
+     - cityName
+     - countryId
+     - year
+     - month
+     - day
+    Events: 
+     - id
+     - name 
+    Countries:
+     - id
+     - continentId
+     - name
+    Continents: 
+     - id
+     - name
+    Results: 
+     - competitionId
+     - eventId
+     - personId
+     - personCountryId
+    Persons: 
+     - id
+     - subid
+     - countryId
+     - gender
