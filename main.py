@@ -113,16 +113,28 @@ if __name__ == '__main__':
 
     logger.info('Starting fething data into DataFrames')
 
-    dfs_result = {
-        table_name: single_table_pipeline(
-            table_name=table_name,
-            data_dir=DATA_DIR,
-            extracted_dir=EXTRACTED_DATA_DIR,
-            needed_columns=NEEDED_TABLES,
-            last_number_of_rows=rows_cardinalities)
+    partial_pipeline = partial(single_table_pipeline,
+                               data_dir=DATA_DIR,
+                               extracted_dir=EXTRACTED_DATA_DIR,
+                               needed_columns=NEEDED_TABLES,
+                               last_number_of_rows=rows_cardinalities)
 
-        for table_name in NEEDED_TABLES.keys()
-    }
+    with Pool(4) as pool:
+        dfs_result_pool = pool.map(partial_pipeline, NEEDED_TABLES.keys())
+
+    dfs_result = {table_name: (df, n_of_rows) 
+                  for table_name, df, n_of_rows in dfs_result_pool }
+
+    # dfs_result = {
+    #     table_name: single_table_pipeline(
+    #         table_name=table_name,
+    #         data_dir=DATA_DIR,
+    #         extracted_dir=EXTRACTED_DATA_DIR,
+    #         needed_columns=NEEDED_TABLES,
+    #         last_number_of_rows=rows_cardinalities)
+
+    #     for table_name in NEEDED_TABLES.keys()
+    # }
 
     logger.info('Successufully fetched data')
 

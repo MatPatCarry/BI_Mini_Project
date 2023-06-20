@@ -150,7 +150,7 @@ def single_table_pipeline(
             sep=sep,
             usecols=needed_columns.get(table_name))
 
-    return df, new_number_of_rows
+    return table_name, df, new_number_of_rows
 
 def competitions_data_preparation(
     df: pd.DataFrame,
